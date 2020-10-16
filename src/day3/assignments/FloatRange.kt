@@ -7,4 +7,5 @@ fun main(){
     if(64.5 in range){
         println(64.5)
     }
+    println(range)
 }
