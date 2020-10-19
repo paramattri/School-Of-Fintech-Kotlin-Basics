@@ -7,7 +7,7 @@ object MainDAO {
 
     internal var conn: Connection? = null
     internal var username = "root"
-    internal var password = "Enter your own password"
+    internal var password = "dashingteam"
 
     fun getConnection() {
         val connectionProps = Properties()

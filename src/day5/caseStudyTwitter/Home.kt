@@ -120,11 +120,4 @@ fun main(args : Array<String>)
 
     connectionClose()
 
-
-//    getConnection()
-//    createDatabase()
-//    createUserTable()
-//    //executeMySQLQuery()
-//    connectionClose()
-
 }
