@@ -32,9 +32,9 @@ object TweetDAO {
         statement?.executeUpdate()
     }
 
-    fun deleteTweet(tweet: String){
+    fun deleteTweet(tweet: String, userName: String){
 
-        val sql : String = "DELETE FROM tweets WHERE tweet = '$tweet'"
+        val sql : String = "DELETE FROM tweets WHERE tweet = '$tweet' AND username = '$userName'"
         var stmt = MainDAO.conn!!.createStatement()
         stmt!!.execute(sql)
     }
@@ -48,15 +48,34 @@ object TweetDAO {
         }
     }
 
-    fun updateTweet(tweetOld : String , tweetNew : String){
+    fun updateTweet(tweetOld : String , tweetNew : String, userName: String){
 
         val sql : String = """
             UPDATE tweets 
             SET tweet = '$tweetNew'
-            WHERE tweet = '$tweetOld'
+            WHERE tweet = '$tweetOld' AND username = '$userName'
         """.trimIndent()
 
         var stmt = MainDAO.conn!!.createStatement()
         stmt!!.execute(sql)
+    }
+
+    fun trendingTweets(){
+
+        val sql : String = """
+            SELECT tweet, COUNT(tweet) AS count
+            FROM tweets
+            GROUP BY tweet
+            ORDER BY count DESC
+        """.trimIndent()
+        var stmt = MainDAO.conn!!.createStatement()
+        val resultSet = stmt!!.executeQuery(sql)
+//        val resultSet1 = stmt!!.executeQuery("SELECT COUNT(*) AS rowcount FROM tweets")
+//        resultSet1.next()
+//        val noOfRows : Int = resultSet1.getInt("rowcount");
+        while (resultSet.next()){
+            println("Tweet: "+resultSet.getString("tweet")+"\t---> "+resultSet.getString("count"))
+        }
+
     }
 }
