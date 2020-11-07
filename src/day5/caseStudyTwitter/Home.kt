@@ -30,62 +30,77 @@ fun main(args: Array<String>)
     while (true){
         println("\n\t\tPress 1 --> Registration \t\t\t  Press 2 --> Login \t\t\t Press 3 --> Exit")
         println("Enter your choice: ")
-        val input1 = read.nextInt()
-        var validate = true
+        var input1 = read.nextInt()
+        var passwordValidate = false
         var emailValidate = false
         when(input1){
             1 -> {
                 read.nextLine()
                 println("Registration Details: ")
-                println("Enter First Name: ")
-                val firstName = read.nextLine()
-                println("Enter Last Name: ")
-                val lastName = read.nextLine()
-                println("Enter UserName: ")
-                val userName = read.nextLine()
-                println("Enter Password: ")
+                try {
+                    println("Enter First Name: ")
+                    val firstName : String = read.nextLine()
+                    println("Enter Last Name: ")
+                    val lastName : String = read.nextLine()
+                    println("Enter UserName: ")
+                    val userName : String = read.nextLine()
+                    println("Enter Password: ")
 //                val con = System.console()
 //                val ch = con.readPassword()
 //                val password = String(ch)
-                val password = read.nextLine()
-                println("Enter Email ID: ")
-                val emailId = read.nextLine()
+                    val password : String = read.nextLine()
+                    println("Enter Email ID: ")
+                    val emailId : String = read.nextLine()
 
-                val emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$"
-                val pat: Pattern = Pattern.compile(emailRegex)
-                emailValidate = pat.matcher(emailId).matches()
+                    val emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$"
+                    val pat: Pattern = Pattern.compile(emailRegex)
+                    emailValidate = pat.matcher(emailId).matches()
 
-                if (emailValidate) {
-                    val userOb = User(firstName, lastName, userName, password, emailId)
-                    createUserTable()
-                    insertUser(userOb.firstName, userOb.lastName, userOb.userName, userOb.password, userOb.emailId)
-                    createLoginTable()
-                    insertLoginDetails(userOb.userName, userOb.password)
-                } else {
-                    println("Please enter a correct email address, And Register again!")
+                    if (emailValidate) {
+                        val userOb = User(firstName, lastName, userName, password, emailId)
+                        createUserTable()
+                        insertUser(userOb.firstName, userOb.lastName, userOb.userName, userOb.password, userOb.emailId)
+                        createLoginTable()
+                        insertLoginDetails(userOb.userName, userOb.password)
+                    } else {
+                        println("Please enter a correct email address, And Register again!")
+                    }
+
+                }catch (e : Exception){
+                    println("Enter Data in correct format, Only String type is accepted.")
                 }
 
             }
 
             2 -> {
                 read.nextLine()
-                println("Enter UserName: ")
-                currentUserName = read.nextLine()
-                println("Enter Password: ")
-                val password: String = read.nextLine()
-                validate = validateLogin(currentUserName, password)
+                try {
+                    println("Enter UserName: ")
+                    currentUserName = read.nextLine()
+                    println("Enter Password: ")
+                    val password: String = read.nextLine()
+                    passwordValidate = validateLogin(currentUserName, password)
+                }catch (e : Exception){
+                    println("Enter Data in correct format, Only String type is accepted.")
+                }
+
             }
 
-            3 -> System.exit(0)
+            3 -> {
+                println("Thanks for Your Time")
+                println("Exiting....")
+                System.exit(0)
+            }
+
             else -> {
                 println("Enter a Valid Option!")
-                validate = false
+                //validate = false
             }
         }
         if (input1 == 1)
             continue
 
-        if(validate){
+        if(passwordValidate){
             break
         }
     }
